@@ -4,8 +4,8 @@
         <title>Snapcast Interface</title>
 <script>
 
-var connection = new WebSocket('ws://roomberryblue.fritz.box:2027', 'binary');
-//var connection = new WebSocket('ws://'+window.location.hostname+':2027', 'binary');
+//var connection = new WebSocket('ws://roomberryblue.fritz.box:2027', 'binary');
+var connection = new WebSocket('ws://'+window.location.hostname+':2027', 'binary');
 
 connection.binaryType = 'arraybuffer';
 
