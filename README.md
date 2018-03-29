@@ -17,9 +17,9 @@ Install https://github.com/novnc/websockify
 start websockify automatically at startup: websockify 2027 :1705
 
 Option 1:
-Install a webserver that supplies the snapcast-websockets-ui index.html to the client
+Install a webserver that supplies the snapcast-websockets-ui interface.html to the client
 
 or Option2:
-Store the index.html locally (and edit the server address to match you snapserver/websockify
+Store the interface.html locally (and edit the server address to match you snapserver/websockify
 
 Browse to index.html. No configuration is needed.
