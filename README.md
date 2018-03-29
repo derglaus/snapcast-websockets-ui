@@ -1,11 +1,14 @@
 # snapcast-websockets-ui
 UI for snapcast using websockets
 
+
 Features:
+
 Client: Rename, set Latency, set Volume, Mute, assign to Group
+
 Group: Mute, select Source
 
-Graphics should be ok on Firefox and Edge, mediocre on Chrome and bad on Internet Explorer
+Graphics should be ok on Firefox and Edge, mediocre on Chrome and bad on Internet Explorer. If anyone wants to put an effort there: help is appreciated...
 
 
 How to:
