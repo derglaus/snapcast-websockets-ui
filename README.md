@@ -28,3 +28,5 @@ or Option2:
 Store the interface.html locally (and edit the server address to match you snapserver/websockify
 
 Browse to index.html. No configuration is needed.
+
+#Happy to receive Feedback :)
