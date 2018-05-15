@@ -9,6 +9,7 @@ Client: Rename, set Latency, set Volume, Mute, assign to Group
 Group: Mute, select Source
 
 Graphics should be ok on Firefox and Edge, mediocre on Chrome and bad on Internet Explorer. If anyone wants to put an effort there: help is appreciated...
+### update: at least a bit improved graphics. Improved Volume Control (smaller steps easier possible with second scale)
 
 ![Screenshot](https://github.com/derglaus/snapcast-websockets-ui/blob/master/screenshot.PNG?raw=true)
 
