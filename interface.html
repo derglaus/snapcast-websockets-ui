@@ -17,15 +17,13 @@
       var answer = JSON.parse(recv);
       if (answer.id == 1) {
          server = answer.result;
-      } else {
-        // console.log(answer.method);
-        if (Array.isArray(answer)) {
-          for (let i = 0; i < answer.length; i++) {
-            action(answer[i]);
-          }
-        } else {
-          action(answer);
+      } else if (Array.isArray(answer)) {
+        for (let i = 0; i < answer.length; i++) {
+          action(answer[i]);
         }
+      } else {
+        action(answer);
+      
       }
 
       show()
