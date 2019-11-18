@@ -4,34 +4,31 @@
   <title>Snapcast Interface</title>
   <script>
 
-    var connection = new WebSocket('ws://volumio-test:1780', 'binary');
-    //var connection = new WebSocket('ws://' + window.location.hostname + ':2027', 'binary');
-
-    connection.binaryType = 'arraybuffer';
+    var connection = new WebSocket('ws://' + window.location.hostname + ':1780/jsonrpc');
 
     var server;
 
     connection.onmessage = function (e) {
-      var recv = String.fromCharCode.apply(null, new Uint8Array(e.data));
+      var recv = e.data
       // console.log(recv); 
       var answer = JSON.parse(recv);
       console.log(answer)
       if (answer.id == 1) {
-         server = answer.result;
+        server = answer.result;
       } else if (Array.isArray(answer)) {
         for (let i = 0; i < answer.length; i++) {
           action(answer[i]);
         }
       } else {
         action(answer);
-      
+
       }
 
       show()
     }
 
     connection.onopen = function () {
-      send('{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}}\n')
+      send('{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}')
     }
 
     connection.onerror = function () {
@@ -176,7 +173,7 @@
         // Create clients in group
         for (let i_client = 0; i_client < server.server.groups[i_group].clients.length; i_client++) {
           var sv = server.server.groups[i_group].clients[i_client];
-          
+
           // Set name and connection state vars, start client div
           var name;
           var clas = 'client'
@@ -238,7 +235,7 @@
     function setVolume(id, mute) {
       percent = document.getElementById('vol_' + id).value;
       percent_fine = document.getElementById('vol_fine_' + id).value;
-      
+
       // Take away 5 as it's the default of the fine slider. Only relevant if it
       // has changed
       percent = Number(percent) + Number(percent_fine) - 5;
@@ -251,7 +248,7 @@
       }
 
       // Request changes
-      send('{"id":8,"jsonrpc":"2.0","method":"Client.SetVolume","params":{"id":"' + id + '","volume":{"muted":' + mute + ',"percent":' + percent + '}}}}\n')
+      send('{"id":8,"jsonrpc":"2.0","method":"Client.SetVolume","params":{"id":"' + id + '","volume":{"muted":' + mute + ',"percent":' + percent + '}}}')
 
       // Make updates to server info and refresh content
       for (let i_group = 0; i_group < server.server.groups.length; i_group++) {
@@ -272,7 +269,7 @@
     }
 
     function setMuteGroup(id, what) {
-      send('{"id":"MuteGroup_' + id + '","jsonrpc":"2.0","method":"Group.SetMute","params":{"id":"' + id + '","mute":' + what + '}}}\n')
+      send('{"id":"MuteGroup_' + id + '","jsonrpc":"2.0","method":"Group.SetMute","params":{"id":"' + id + '","mute":' + what + '}}')
 
       for (let i_group = 0; i_group < server.server.groups.length; i_group++) {
         if (server.server.groups[i_group].id == id) {
@@ -289,7 +286,7 @@
     }
 
     function setStream(id) {
-      send('{"id":4,"jsonrpc":"2.0","method":"Group.SetStream","params":{"id":"' + id + '","stream_id":"' + document.getElementById('stream_' + id).value + '"}}}\n')
+      send('{"id":4,"jsonrpc":"2.0","method":"Group.SetStream","params":{"id":"' + id + '","stream_id":"' + document.getElementById('stream_' + id).value + '"}}')
 
       for (let i_group = 0; i_group < server.server.groups.length; i_group++) {
         if (server.server.groups[i_group].id == id) {
@@ -302,13 +299,13 @@
 
     function setGroup(id) {
       group = document.getElementById('group_' + id).value;
-      
+
       // Get client group id
       var current_group;
       groups:
       for (let i_group = 0; i_group < server.server.groups.length; i_group++) {
         for (let i_client = 0; i_client < server.server.groups[i_group].clients.length; i_client++) {
-          if (id == server.server.groups[i_group].clients[i_client].id) { 
+          if (id == server.server.groups[i_group].clients[i_client].id) {
             current_group = server.server.groups[i_group].id;
             break groups;
           }
@@ -334,12 +331,12 @@
       if (group == "new") {
         group = current_group
       }
-      else { 
+      else {
         send_clients[send_clients.length] = id;
       }
 
       var send_clients_string = JSON.stringify(send_clients);
-      send('{"id":1,"jsonrpc":"2.0","method":"Group.SetClients","params":{"clients":' + send_clients_string + ',"id":"' + group + '"}}}\n')
+      send('{"id":1,"jsonrpc":"2.0","method":"Group.SetClients","params":{"clients":' + send_clients_string + ',"id":"' + group + '"}}')
     }
 
     function setName(id) {
@@ -361,18 +358,18 @@
           }
         }
       }
-      
+
       var newName = window.prompt("New Name", current_name);
       var newLatency = window.prompt("New Latency", current_latency);
 
       // Don't change anything if user cancel's
       if (newName != null) {
-        send('{"id":6,"jsonrpc":"2.0","method":"Client.SetName","params":{"id":"' + id + '","name":"' + newName + '"}}}\n')
+        send('{"id":6,"jsonrpc":"2.0","method":"Client.SetName","params":{"id":"' + id + '","name":"' + newName + '"}}')
       } else {
         newName = current_name
       }
       if (newLatency != null) {
-        send('{"id":7,"jsonrpc":"2.0","method":"Client.SetLatency","params":{"id":"' + id + '","latency":' + newLatency + '}}}\n')
+        send('{"id":7,"jsonrpc":"2.0","method":"Client.SetLatency","params":{"id":"' + id + '","latency":' + newLatency + '}}')
       } else {
         newLatency = current_latency
       }
